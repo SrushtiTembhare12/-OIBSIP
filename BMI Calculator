@@ -1,0 +1,48 @@
+import tkinter as tk
+from tkinter import messagebox
+
+def calculate_bmi():
+    try:
+        weight = float(weight_entry.get())
+        height = float(height_entry.get())
+        bmi = weight / (height ** 2)
+        bmi_label.config(text="Your BMI: {:.2f}".format(bmi))
+    except ValueError:
+        messagebox.showerror("Error", "Please enter valid weight and height.")
+
+def save_data():
+    try:
+        weight = float(weight_entry.get())
+        height = float(height_entry.get())
+        bmi = weight / (height ** 2)
+        with open("bmi_data.txt", "a") as f:
+            f.write("{:.2f}, {:.2f}, {:.2f}\n".format(weight, height, bmi))
+        messagebox.showinfo("Success", "Data saved successfully.")
+    except ValueError:
+        messagebox.showerror("Error", "Please enter valid weight and height.")
+
+# GUI Setup
+root = tk.Tk()
+root.title("BMI Calculator")
+
+weight_label = tk.Label(root, text="Weight (kg):")
+weight_label.grid(row=0, column=0, padx=10, pady=10)
+weight_entry = tk.Entry(root)
+weight_entry.grid(row=0, column=1, padx=10, pady=10)
+
+height_label = tk.Label(root, text="Height (m):")
+height_label.grid(row=1, column=0, padx=10, pady=10)
+height_entry = tk.Entry(root)
+height_entry.grid(row=1, column=1, padx=10, pady=10)
+
+calculate_button = tk.Button(root, text="Calculate BMI", command=calculate_bmi)
+calculate_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+
+bmi_label = tk.Label(root, text="")
+bmi_label.grid(row=3, column=0, columnspan=2, padx=10, pady=10)
+
+save_button = tk.Button(root, text="Save Data", command=save_data)
+save_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+
+root.mainloop()
+
